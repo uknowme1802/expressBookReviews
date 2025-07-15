@@ -12,9 +12,21 @@ app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUni
 
 app.use("/customer/auth/*", function auth(req,res,next){
 //Write the authenication mechanism here
+    const authenticatedUser = (username, password) => {
+    // Filter the users array for any user with the same username and password
+        let validusers = users.filter((user) => {
+            return (user.username === username && user.password === password);
+        });
+        // Return true if any valid user is found, otherwise false
+        if (validusers.length > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 });
  
-const PORT =5000;
+const PORT =8081;
 
 app.use("/customer", customer_routes);
 app.use("/", genl_routes);
